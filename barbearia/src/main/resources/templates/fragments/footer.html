@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<th:block th:fragment="footer">
+  <footer class="footer bg-dark text-light pt-5">
+    <div class="container">
+
+      <div class="row g-4 align-items-start">
+        <!-- Marca -->
+        <div class="col-md-4">
+          <a class="d-inline-flex align-items-center gap-2 text-decoration-none text-light mb-3" th:href="@{/}">
+            <img th:src="@{/img/logo/logo-mark-white.png}" alt="Barbearia" width="34" height="34"
+                 style="object-fit:contain; border-radius:.35rem;">
+            <span class="h5 mb-0">Barbearia</span>
+          </a>
+          <p class="text-secondary small mb-3">
+            Estilo clássico, corte preciso. Sua barbearia em Lisboa.
+          </p>
+          <div class="d-flex gap-3 fs-4">
+            <a href="#" class="text-decoration-none link-light"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-decoration-none link-light"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-decoration-none link-light"><i class="bi bi-tiktok"></i></a>
+            <a href="#" class="text-decoration-none link-light"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Links rápidos -->
+        <div class="col-6 col-md-2">
+          <h6 class="text-uppercase small fw-bold mb-3">Links</h6>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="#servicos" class="link-light text-decoration-none">
+              <i class="bi bi-scissors"></i> Serviços</a></li>
+            <li class="mb-2"><a href="#barbeiros" class="link-light text-decoration-none">
+              <i class="bi bi-people"></i> Barbeiros</a></li>
+            <li class="mb-2"><a href="#depoimentos" class="link-light text-decoration-none">
+              <i class="bi bi-chat-quote"></i> Depoimentos</a></li>
+            <li class="mb-2"><a href="#contato" class="link-light text-decoration-none">
+              <i class="bi bi-envelope"></i> Contato</a></li>
+          </ul>
+        </div>
+
+        <!-- Contato -->
+        <div class="col-6 col-md-3">
+          <h6 class="text-uppercase small fw-bold mb-3">Contato</h6>
+          <ul class="list-unstyled small text-secondary mb-3">
+            <li class="mb-2">
+              <i class="bi bi-geo-alt text-danger"></i>
+              Av. da Noite 123, Lisboa
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-telephone text-danger"></i>
+              +351 999 999 999
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-envelope text-danger"></i>
+              <a href="mailto:suporte@barbearia.app" class="link-light text-decoration-none">suporte@barbearia.app</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Horário + CTA -->
+        <div class="col-md-3">
+          <h6 class="text-uppercase small fw-bold mb-3">Horário</h6>
+          <ul class="list-unstyled small text-secondary mb-3">
+            <li class="mb-1"><i class="bi bi-clock-history text-danger"></i> Seg–Sáb: 09h–20h</li>
+            <li class="mb-1"><i class="bi bi-calendar-event text-danger"></i> Dom: fechado</li>
+          </ul>
+          <a th:href="@{/agendar}" class="btn btn-danger w-100">
+            <i class="bi bi-calendar2-check"></i> Agendar serviço
+          </a>
+        </div>
+      </div>
+
+      <hr class="border-secondary-subtle my-4">
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-secondary pb-3">
+        <div>&copy; 2025 Barbearia Digital. Todos os direitos reservados.</div>
+        <div class="d-flex gap-3">
+          <a th:href="@{/politica-privacidade}" class="link-secondary text-decoration-none">
+            <i class="bi bi-shield-check"></i> Privacidade
+          </a>
+          <a th:href="@{/termos-de-uso}" class="link-secondary text-decoration-none">
+            <i class="bi bi-file-earmark-text"></i> Termos
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+</th:block>
+</html>

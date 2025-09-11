@@ -1,0 +1,4 @@
+name=banner.png
+contentType=image/png
+bytes=723084
+dir=C:\workspace\barbearia\barbearia\uploads\barbeiros\71e363c9-6e27-4844-abf2-ee43f7983a9b

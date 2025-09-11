@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head th:replace="~{fragments/head :: head('Entrar — Barbearia')}"></head>
+<body class="skin-bright">
+
+  <!-- NAV -->
+<!--   <div th:replace="~{fragments/nav :: nav}"></div> -->
+
+  <!-- AUTH WRAP -->
+  <section class="auth-wrap py-5 py-lg-0">
+    <div class="container">
+      <div class="row align-items-center justify-content-center g-0">
+
+        <!-- Painel de marca (desktop) -->
+        <div class="col-lg-6 d-none d-lg-block pe-lg-5">
+          <div class="brand-panel p-5 rounded-4 text-light position-relative overflow-hidden">
+            <div class="shine"></div>
+            <div class="mb-4 d-flex align-items-center gap-3">
+              <img th:src="@{/img/logo/logo-mark-white.png}" alt="Barbearia" width="48" height="48" class="rounded-3">
+              <div>
+                <h1 class="h3 mb-0 fw-bold">Barbearia</h1>
+                <div class="text-white-50 small">Lisboa</div>
+              </div>
+            </div>
+            <h2 class="display-6 fw-bold mb-3">Estilo clássico, corte preciso.</h2>
+            <p class="text-white-75 mb-4">Entre para agendar o seu horário com nossos mestres barbeiros.</p>
+
+            <ul class="list-unstyled m-0">
+              <li class="d-flex align-items-start gap-3 mb-3">
+                <div class="icon-pill"><i class="bi bi-scissors"></i></div>
+                <div><strong>Cortes de primeira</strong><br><span class="text-white-50">Clássicos e tendências.</span></div>
+              </li>
+              <li class="d-flex align-items-start gap-3 mb-3">
+                <div class="icon-pill"><i class="bi bi-shield-check"></i></div>
+                <div><strong>Atendimento premium</strong><br><span class="text-white-50">Higiene e conforto.</span></div>
+              </li>
+              <li class="d-flex align-items-start gap-3">
+                <div class="icon-pill"><i class="bi bi-star-fill"></i></div>
+                <div><strong>Avaliações 5★</strong><br><span class="text-white-50">Clientes que voltam.</span></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card de login -->
+        <div class="col-md-10 col-lg-6 col-xl-5">
+          <div class="card border-0 shadow-sm rounded-4 auth-card">
+            <div class="card-body p-4 p-md-5">
+              <div class="text-center mb-4">
+                <div class="icon-lock"><i class="bi bi-shield-lock"></i></div>
+                <h3 class="fw-bold mb-1">Entrar</h3>
+                <p class="text-secondary m-0">Acesse sua conta para continuar</p>
+              </div>
+
+              <!-- Alerts -->
+              <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                <i class="bi bi-exclamation-triangle"></i>
+                <div>Credenciais inválidas. Tente novamente.</div>
+              </div>
+              <div th:if="${param.logout}" class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                <i class="bi bi-check2-circle"></i>
+                <div>Sessão encerrada com sucesso.</div>
+              </div>
+
+              <form th:action="@{/login}" method="post" class="needs-validation" novalidate onsubmit="return handleLoginSubmit(this);">
+                <!-- CSRF -->
+                <input type="hidden" th:if="${_csrf != null}"
+                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="mb-3">
+                  <label for="username" class="form-label">Usuário</label>
+                  <div class="input-group input-group-lg has-icon">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" id="username" name="username" class="form-control"
+                           placeholder="seu.usuario" autocomplete="username" required>
+                    <div class="invalid-feedback">Informe seu usuário.</div>
+                  </div>
+                </div>
+
+                <div class="mb-2">
+                  <label for="password" class="form-label">Senha</label>
+                  <div class="input-group input-group-lg has-icon position-relative">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    <input type="password" id="password" name="password" class="form-control"
+                           placeholder="••••••••" autocomplete="current-password" required>
+                    <button type="button" class="toggle-pass btn btn-link px-3"
+                            aria-label="Mostrar/ocultar senha"
+                            onclick="togglePassword('password', this.querySelector('i'));">
+                      <i class="bi bi-eye-slash"></i>
+                    </button>
+                    <div class="invalid-feedback">Informe sua senha.</div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div class="form-check" style="user-select:none">
+                    <input class="form-check-input" type="checkbox" value="true" id="remember-me" name="remember-me">
+                    <label class="form-check-label" for="remember-me">Lembrar de mim</label>
+                  </div>
+                  <a class="link-secondary small" th:href="@{/recuperar-senha}">
+                    <i class="bi bi-question-circle"></i> Esqueci minha senha
+                  </a>
+                </div>
+
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-danger btn-lg" id="btn-login">
+                    <i class="bi bi-box-arrow-in-right"></i> Entrar
+                  </button>
+                </div>
+              </form>
+
+              <hr class="my-4">
+
+              <div class="text-center">
+                <a th:href="@{/}" class="text-decoration-none link-secondary">
+                  <i class="bi bi-arrow-left"></i> Voltar ao início
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- scripts locais (mova para seu JS depois) -->
+    <script>
+      function togglePassword(id, icon){
+        const p = document.getElementById(id);
+        p.type = (p.type === 'password') ? 'text' : 'password';
+        icon.classList.toggle('bi-eye'); icon.classList.toggle('bi-eye-slash');
+      }
+      function handleLoginSubmit(form){
+        // validação nativa
+        if (!form.checkValidity()){
+          form.classList.add('was-validated');
+          return false;
+        }
+        // feedback rápido
+        const btn = document.getElementById('btn-login');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Entrando...';
+        return true;
+      }
+    </script>
+  </section>
+
+  <!-- FOOTER -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

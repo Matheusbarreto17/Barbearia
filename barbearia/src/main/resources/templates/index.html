@@ -1,0 +1,318 @@
+<!-- <!DOCTYPE html> -->
+<!-- <html xmlns:th="http://www.thymeleaf.org" lang="pt"> -->
+<!-- <head th:replace="~{fragments/head :: head('Barbearia— Início')}"> -->
+<!--   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> -->
+<!-- </head> -->
+<!-- <body class="skin-bright"> -->
+
+<!--   <!-- NAV (mantém só o nome em vermelho) --> 
+<!--   <div th:replace="~{fragments/nav :: nav}"></div> -->
+
+
+  
+
+<!--   <!-- FOOTER --> 
+<!--   <div th:replace="~{fragments/footer :: footer}"></div> -->
+
+  
+  
+<!-- </body> -->
+<!-- </html> -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head th:replace="~{fragments/head :: head('Barbearia — Início')}"></head>
+<body class="skin-bright">
+
+  <!-- NAV -->
+  <div th:replace="~{fragments/nav :: nav}"></div>
+
+  <!-- HERO / BANNER -->
+  <header class="hero-banner position-relative text-light">
+    <div class="overlay"></div>
+    <div class="container position-relative z-1">
+      <div class="row align-items-center min-vh-60 py-5">
+        <div class="col-lg-7">
+          <h1 class="display-4 fw-bold mb-3">
+            Estilo clássico, corte preciso.<br><span class="text-danger">Sua barbearia em Lisboa.</span>
+          </h1>
+          <p class="lead text-light-emphasis mb-4">
+            Agende seu horário com nossos mestres barbeiros. Experiência premium, ambiente acolhedor e aquele acabamento impecável.
+          </p>
+          <div class="d-flex gap-3">
+            <a th:href="@{/agendar}" class="btn btn-danger btn-lg">
+              <i class="bi bi-calendar2-check"></i> Agendar serviço
+            </a>
+            <a th:href="@{/login}" class="btn btn-outline-light btn-lg">
+              <i class="bi bi-box-arrow-in-right"></i> Entrar
+            </a>
+          </div>
+          <div class="mt-4 small text-light-emphasis">
+            <i class="bi bi-geo-alt"></i> Av. da Noite 123, Lisboa — Seg a Sáb, 09h–20h
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#servicos" class="scroll-down btn btn-link text-decoration-none">
+      <i class="bi bi-chevron-double-down fs-2"></i>
+    </a>
+  </header>
+
+  <!-- SERVIÇOS (refinado com proporção áurea) -->
+<section id="servicos" class="section-servicos py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold display-6 mb-2">Serviços</h2>
+      <p class="text-secondary mb-0">Qualidade tradicional, acabamento contemporâneo.</p>
+    </div>
+
+    <div class="row g-4 g-lg-5">
+      <!-- Camuflagem/Coloração -->
+      <div class="col-md-6 col-lg-4" th:each ="s :${servicos}">
+        <article class="card service-card h-100 shadow-sm">
+          <div class="card-body p-4 p-xl-5">
+         <img th:src="@{/{f} (f =${s.foto})}" class="card-img-top" alt="Servico 1">
+            <h5 class="card-title fw-bold mb-2" th:text = "${s.name}" >Camuflagem/Coloração</h5>
+            <p class="card-text text-secondary mb-4" th:text = "${s.descricao}">
+              Disfarce fios brancos e realce sua cor com naturalidade.
+            </p>
+            <p class="card-text text-secondary mb-4" th:text = "${s.preco}">
+              R$ 10,98.
+            </p>
+            <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-calendar2-check"></i> Agendar
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- PRODUTOS -->
+  <section id="produtos" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Nossos Produtos</h2>
+        <p class="text-secondary mb-0">Os melhores produtos para voce.</p>
+      </div>
+      
+              <div class="row g-4 g-lg-5">
+      <!-- Camuflagem/Coloração -->
+      <div class="col-md-6 col-lg-4" th:each ="p :${produtos}">
+        <article class="card service-card h-100 shadow-sm">
+          <div class="card-body p-4 p-xl-5">
+         <img th:src="@{/{f} (f =${p.foto})}" class="card-img-top" alt="Produto 1">
+            <h5 class="card-title fw-bold mb-2" th:text = "${p.name}" >Camuflagem/Coloração</h5>
+            <p class="card-text text-secondary mb-4" th:text = "${p.descricao}">
+              Disfarce fios brancos e realce sua cor com naturalidade.
+            </p>
+            <p class="card-text text-secondary mb-4" th:text = "${p.preco}">
+              R$ 10,98.
+            </p>
+            <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-calendar2-check"></i> Agendar
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+    </div>
+    </section>
+
+  <!-- BARBEIROS -->
+  <section id="barbeiros" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Nosso Time</h2>
+        <p class="text-secondary mb-0">Barbeiros especialistas em cortes clássicos e tendências modernas.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each ="b :${barbeiros}">
+          <div class="card h-100 shadow-sm team-card text-center">
+            <img th:src="@{/{f} (f =${b.foto})}" class="card-img-top" alt="Barbeiro 1">
+            <div class="card-body">
+              <h5 class="card-title mb-1" th:text = "${b.nome}">Miguel Santos</h5>
+              <p class="text-secondary small mb-3" th:text = "${b.especialidade}">Clássicos, Fade & Barba</p>
+              <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">Agendar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section id="depoimentos" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Depoimentos</h2>
+        <p class="text-secondary mb-0">Quem já passou por aqui recomenda.</p>
+      </div>
+
+      <div id="carouselDepo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+          <div class="carousel-item active">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                  <div class="card-body p-4">
+                    <p class="fs-5 mb-3">
+                      “Ambiente top e profissionais incríveis. Melhor barba que já fiz!”
+                    </p>
+                    <div class="d-flex align-items-center gap-3">
+                      <img th:src="@{/img/cliente/c1.jpg}" class="rounded-circle" width="48" height="48" alt="Cliente 1">
+                      <div>
+                        <strong>Luisa Azevedo</strong>
+                        <div class="text-warning small">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                  <div class="card-body p-4">
+                    <p class="fs-5 mb-3">
+                      “Corte perfeito e atendimento pontual. Virei cliente!”
+                    </p>
+                    <div class="d-flex align-items-center gap-3">
+                      <img th:src="@{/img/cliente/c2.jpg}" class="rounded-circle" width="48" height="48" alt="Cliente 2">
+                      <div>
+                        <strong>Luís Mendonça</strong>
+                        <div class="text-warning small">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                  <div class="card-body p-4">
+                    <p class="fs-5 mb-3">
+                      “A experiência premium vale muito! Recomendo o combo corte + barba.”
+                    </p>
+                    <div class="d-flex align-items-center gap-3">
+                      <img th:src="@{/img/cliente/c3.jpg}" class="rounded-circle" width="48" height="48" alt="Cliente 3">
+                      <div>
+                        <strong>Bruno Carvalho</strong>
+                        <div class="text-warning small">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                          <i class="bi bi-star-fill"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDepo" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDepo" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTATO / AGENDAR -->
+  <section id="contato" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Contato & Agendamento</h2>
+        <p class="text-secondary mb-0">Fale com a gente ou marque seu horário agora mesmo.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="mb-3"><i class="bi bi-geo-alt text-danger"></i> Endereço</h5>
+              <p class="text-secondary mb-4">Av. da Noite 123, Lisboa — Portugal</p>
+              <h5 class="mb-3"><i class="bi bi-telephone text-danger"></i> Telefone</h5>
+              <p class="text-secondary mb-4">+351 999 999 999</p>
+              <h5 class="mb-3"><i class="bi bi-clock text-danger"></i> Horário</h5>
+              <p class="text-secondary mb-4">Seg a Sáb — 09h às 20h</p>
+
+              <a th:href="@{/agendar}" class="btn btn-danger w-100">
+                <i class="bi bi-calendar2-check"></i> Agendar serviço
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="mb-3">Envie uma mensagem</h5>
+              <form th:action="@{/}" method="post">
+                <input type="hidden" th:if="${_csrf != null}"
+                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" placeholder="Seu nome" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="voce@email.com" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Mensagem</label>
+                    <textarea name="mensagem" rows="4" class="form-control" placeholder="Como podemos ajudar?" required></textarea>
+                  </div>
+                  <div class="col-12 d-grid d-md-block">
+                    <button type="submit" class="btn btn-outline-danger">
+                      <i class="bi bi-send"></i> Enviar
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Mapa opcional: substitua o src pelo seu embed -->
+          <div class="ratio ratio-21x9 mt-4">
+            <iframe
+              src="https://www.google.com/maps?q=Lisboa&output=embed"
+              style="border:0" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+
+
+</body>
+</html>
+
