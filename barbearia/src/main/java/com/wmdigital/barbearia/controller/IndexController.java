@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wmdigital.barbearia.entity.Barbeiro;
+import com.wmdigital.barbearia.entity.Cliente;
 import com.wmdigital.barbearia.entity.Produto;
 import com.wmdigital.barbearia.entity.Servico;
 import com.wmdigital.barbearia.framework.AbstractController;
 import com.wmdigital.barbearia.framework.AbstractEntityService;
+import com.wmdigital.barbearia.service.AgendamentoService;
+import com.wmdigital.barbearia.service.AutService;
 import com.wmdigital.barbearia.service.BarbeiroService;
+import com.wmdigital.barbearia.service.ClienteService;
 import com.wmdigital.barbearia.service.ProdutoService;
 import com.wmdigital.barbearia.service.ServicoService;
 
@@ -31,10 +35,17 @@ public class IndexController extends AbstractController<Object> {
 	@Autowired
 	private ProdutoService produtoService;
 	
-	
+	@Autowired
+	private ClienteService clienteService;
 	
 	@Autowired
-	private  PasswordEncoder encoder;	
+	private  PasswordEncoder encoder;
+	
+	@Autowired
+	private AutService autService;
+	
+	@Autowired
+	private AgendamentoService agendamentoServico;
 	
 
 	protected IndexController() {
@@ -78,10 +89,36 @@ public class IndexController extends AbstractController<Object> {
     @GetMapping({"/dashboard"})
     public ModelAndView dashboard() {
     	
-    	   	 
    	    ModelAndView mav = new ModelAndView("private/dashboard");
-//   	    mav.addObject("modelos", modelos);
-   	  
+   	    
+   	 List<Cliente> clientes = clienteService.findAll();
+   	int quantidadeCliente = clientes.size();
+    mav.addObject("quantidadeCliente", quantidadeCliente);
+    
+    List<Barbeiro> barbeiros = barbeiroService.findAll();
+   	int quantidadeBarbeiro = barbeiros.size();
+    mav.addObject("quantidadeBarbeiro", quantidadeBarbeiro);
+    
+    List<Produto> produtos = produtoService.findAll();
+   	int quantidadeProduto = produtos.size();
+    mav.addObject("quantidadeProduto", quantidadeProduto);
+    
+    List<Servico> servicos = servicoService.findAll();
+   	int quantidadeServico = servicos.size();
+    mav.addObject("quantidadeServico", quantidadeServico);
+    
+   var user = autService.getUsuarioLogadoOrNull();
+   
+	   	if(user == null) {
+		   
+		   return index();
+		   
+	   		} else { 
+	   			
+	   		 mav.addObject("meusAgendamentos", agendamentoServico.getAgendamentosByUsuer(user));
+	   }
+	    
+   	 
         return mav;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wmdigital.barbearia.dao.AgendamentoRepository;
 import com.wmdigital.barbearia.entity.Agendamento;
+import com.wmdigital.barbearia.entity.Usuario;
 import com.wmdigital.barbearia.framework.AbstractEntityService;
 
 @Service
@@ -58,6 +59,11 @@ public class AgendamentoService extends AbstractEntityService<Agendamento> {
 	public List<Agendamento> findAllNew() {
 		
 		return agendamentoDAO.findAll();
+	}
+	
+	public List<Agendamento> getAgendamentosByUsuer(Usuario usuario) {
+		
+		return agendamentoDAO.findByUsuarioId(usuario.getId());
 	}
 
 }

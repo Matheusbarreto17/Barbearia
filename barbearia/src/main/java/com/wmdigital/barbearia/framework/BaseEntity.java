@@ -45,7 +45,7 @@ public abstract class BaseEntity {
     protected LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at",nullable = false,updatable = false)
+    @Column(name = "updated_at",nullable = false,updatable = true)
     protected LocalDateTime updatedAt;
 
     @CreatedBy
@@ -53,7 +53,7 @@ public abstract class BaseEntity {
     protected String createdBy;
 
     @LastModifiedBy
-    @Column(name = "updated_by",nullable = false, updatable = false)
+    @Column(name = "updated_by",nullable = false, updatable = true)
     protected String updatedBy;	
 	
     

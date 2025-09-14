@@ -99,7 +99,4 @@ public class Cliente extends BaseEntity  {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
-	//teste
-
 }
