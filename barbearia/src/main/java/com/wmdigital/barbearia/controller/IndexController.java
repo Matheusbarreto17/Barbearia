@@ -116,6 +116,7 @@ public class IndexController extends AbstractController<Object> {
 	   		} else { 
 	   			
 	   		 mav.addObject("meusAgendamentos", agendamentoServico.getAgendamentosByUsuer(user));
+	   		 mav.addObject("agendamentosAll", agendamentoServico.findAll());
 	   }
 	    
    	 

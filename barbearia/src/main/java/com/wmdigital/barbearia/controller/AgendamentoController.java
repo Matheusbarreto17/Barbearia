@@ -1,12 +1,17 @@
 package com.wmdigital.barbearia.controller;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wmdigital.barbearia.entity.Agendamento;
 import com.wmdigital.barbearia.framework.AbstractController;
@@ -15,6 +20,7 @@ import com.wmdigital.barbearia.service.AgendamentoService;
 import com.wmdigital.barbearia.service.BarbeiroService;
 import com.wmdigital.barbearia.service.ClienteService;
 import com.wmdigital.barbearia.service.ServicoService;
+import com.wmdigital.barbearia.util.Status;
 
 @Controller
 @RequestMapping("/agendamentos")
@@ -66,4 +72,49 @@ public class AgendamentoController extends AbstractController<Agendamento> {
 		
 	}
 	
+    @PostMapping("/cancelar/{id}")
+    public ModelAndView cancelarAgendamento(@PathVariable UUID id, RedirectAttributes ra ) {
+    	
+    	var	agendamento = agendamentoService.findOne(id);
+    	
+    	if (agendamento.getStatus().equals(Status.PENDENTE) || agendamento.getStatus().equals(Status.CONFIRMADO)) {
+    	
+    	agendamento.setStatus(Status.CANCELADO);
+    	agendamentoService.save(agendamento);
+    	
+    	}
+    	
+    	return  new ModelAndView("redirect:/dashboard");
+    	
+    }
+	
+    @PostMapping("/concluir/{id}")
+    public ModelAndView concluirAgendamento(@PathVariable UUID id, RedirectAttributes ra ) {
+    	
+    	var	agendamento = agendamentoService.findOne(id);
+    	
+    	if (agendamento.getStatus().equals(Status.CONFIRMADO)) {
+    		
+    		agendamento.setStatus(Status.CONCLUIDO);
+    		agendamentoService.save(agendamento);
+    	}
+    	
+    	return  new ModelAndView("redirect:/dashboard");
+    	
+    }
+    
+    @PostMapping("/confimar/{id}")
+    public ModelAndView confimarAgendamento(@PathVariable UUID id, RedirectAttributes ra ) {
+    	
+    	var	agendamento = agendamentoService.findOne(id);
+    	
+    	if (agendamento.getStatus().equals(Status.PENDENTE)) {
+    		
+    		agendamento.setStatus(Status.CONFIRMADO);
+    		agendamentoService.save(agendamento);
+    	}
+    	
+    	return  new ModelAndView("redirect:/dashboard");
+    	
+    }
 }
