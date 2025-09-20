@@ -17,11 +17,14 @@
             <i class="bi bi-person-badge"></i>
           </div>
           <div>
-            <h1 class="h3 fw-bold mb-1">Olá, <span sec:authentication="name">usuário</span>👋<small class="ms-2 align-middle">
+            <h1 class="h3 fw-bold mb-1">
+              Olá, <span sec:authentication="name">usuário</span> 👋
+              <small class="ms-2 align-middle">
                 <span class="badge text-bg-dark" sec:authorize="hasRole('ADMIN')">ADM</span>
                 <span class="badge text-bg-secondary" sec:authorize="hasRole('BARBER')">BARBEIRO</span>
                 <span class="badge text-bg-info" sec:authorize="hasRole('CLIENT')">CLIENTE</span>
-              </small></h1>
+              </small>
+            </h1>
             <p class="text-secondary mb-0">Bem-vindo ao seu painel. Veja seus agendamentos e desempenho de hoje.</p>
           </div>
         </div>
@@ -40,43 +43,47 @@
     </div>
   </section>
 
-  <!-- KPIs -->
-  <section class="py-3">
+  <!-- KPIs GERAIS -->
+  <section class="py-3" sec:authorize="hasAnyRole('CLIENT','BARBER')">
     <div class="container">
       <div class="row g-3 g-lg-4">
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
               <div class="kpi-icon bg-danger-subtle text-danger"><i class="bi bi-calendar-day"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Agendamentos (hoje)</div>
-                <div class="kpi-value" th:text="${kpis?.agendamentosHoje} ?: 0">0</div>
+                <div class="kpi-value" th:text="${qtdtoday} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
               <div class="kpi-icon bg-warning-subtle text-warning"><i class="bi bi-hourglass-split"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Pendentes</div>
-                <div class="kpi-value" th:text="${kpis?.pendentes} ?: 0">0</div>
+                <div class="kpi-value" th:text="${qtdpendentes} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
               <div class="kpi-icon bg-success-subtle text-success"><i class="bi bi-check2-circle"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Concluídos</div>
-                <div class="kpi-value" th:text="${kpis?.concluidos} ?: 0">0</div>
+                <div class="kpi-value" th:text="${qtdconcluidos} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN','BARBER')">
           <div class="card kpi-card h-100">
             <div class="card-body">
@@ -90,59 +97,123 @@
             </div>
           </div>
         </div>
+
       </div><!-- row -->
     </div>
-    </section>
-    
-    <section class="py-3" sec:authorize="hasRole('ADMIN')">
-     <div class="container">
+  </section>
+
+<!-- KPIs GERAIS ADMIN-->
+  <section class="py-3" sec:authorize="hasRole('ADMIN')">
+    <div class="container">
       <div class="row g-3 g-lg-4">
+
+        <div class="col-6 col-lg-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="kpi-icon bg-danger-subtle text-danger"><i class="bi bi-calendar-day"></i></div>
+              <div class="kpi-meta">
+                <div class="kpi-label">Agendamentos (hoje)</div>
+                <div class="kpi-value" th:text="${qtdtodayadmin} ?: 0">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="kpi-icon bg-warning-subtle text-warning"><i class="bi bi-hourglass-split"></i></div>
+              <div class="kpi-meta">
+                <div class="kpi-label">Pendentes</div>
+                <div class="kpi-value" th:text="${qtdpendentesadmin} ?: 0">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="kpi-icon bg-success-subtle text-success"><i class="bi bi-check2-circle"></i></div>
+              <div class="kpi-meta">
+                <div class="kpi-label">Concluídos</div>
+                <div class="kpi-value" th:text="${qtdconcluidosadmin} ?: 0">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN','BARBER')">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="kpi-icon bg-dark text-white"><i class="bi bi-cash-coin"></i></div>
+              <div class="kpi-meta">
+                <div class="kpi-label">Receita (hoje)</div>
+                <div class="kpi-value">
+                  <span th:text="${#numbers.formatDecimal(kpis?.receitaHoje ?: 0, 1, 'POINT', 2, 'COMMA')}">0,00</span> €
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- row -->
+    </div>
+  </section>
+
+  <!-- KPIs ADMIN -->
+  <section class="py-3" sec:authorize="hasRole('ADMIN')">
+    <div class="container">
+      <div class="row g-3 g-lg-4">
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
               <div class="kpi-icon bg-danger-subtle text-danger"><i class="bi bi-people"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Clientes</div>
-                <div class="kpi-value" th:text="${quantidadeCliente}">0</div>
+                <div class="kpi-value" th:text="${quantidadeCliente} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
-              <div class="kpi-icon bg-warning-subtle text-warning"><i class="bi bi-people"></i></div>
+              <div class="kpi-icon bg-warning-subtle text-warning"><i class="bi bi-person-workspace"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Barbeiros</div>
-                <div class="kpi-value" th:text="${quantidadeBarbeiro}">0</div>
+                <div class="kpi-value" th:text="${quantidadeBarbeiro} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
-              <div class="kpi-icon bg-success-subtle text-success"><i class="bi bi-scissors"></i></div>
+              <div class="kpi-icon bg-success-subtle text-success"><i class="bi bi-basket"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Produtos</div>
-                <div class="kpi-value" th:text="${quantidadeProduto}">0</div>
+                <div class="kpi-value" th:text="${quantidadeProduto} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-6 col-lg-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
               <div class="kpi-icon bg-dark text-white"><i class="bi bi-scissors"></i></div>
               <div class="kpi-meta">
                 <div class="kpi-label">Serviços</div>
-                <div class="kpi-value">
-                 <div class="kpi-value" th:text="${quantidadeServico}">0</div>
-                </div>
+                <div class="kpi-value" th:text="${quantidadeServico} ?: 0">0</div>
               </div>
             </div>
           </div>
         </div>
+
       </div><!-- row -->
     </div>
   </section>
@@ -151,6 +222,7 @@
   <main class="py-4 py-lg-5">
     <div class="container">
       <div class="row g-4">
+
         <!-- Próximos agendamentos -->
         <div class="col-lg-8">
           <div class="card shadow-sm border-0 rounded-4">
@@ -166,7 +238,6 @@
                 </div>
               </div>
 
-              <!-- Tabela -->
               <div class="table-responsive">
                 <table class="table align-middle mb-0">
                   <thead class="table-light">
@@ -175,212 +246,134 @@
                       <th>Cliente</th>
                       <th>Serviço</th>
                       <th class="d-none d-lg-table-cell">Barbeiro</th>
-<!--                       <th>Valor</th> -->
                       <th>Status</th>
                       <th class="text-end">Ações</th>
                     </tr>
                   </thead>
-                  
-                  <tbody id="tbody-ag" sec:authorize="hasAnyRole('CLIENT', 'BARBER')">
-                    <!-- loop -->
+
+                  <!-- CLIENT/BARBER -->
+                  <tbody id="tbody-ag" sec:authorize="hasAnyRole('CLIENT','BARBER')">
                     <tr th:each="a : ${meusAgendamentos}">
                       <td>
                         <div class="fw-medium" th:text="${#temporals.format(a.inicio,'dd/MM HH:mm')}">20/08 14:00</div>
                         <small class="text-secondary" th:text="${#temporals.format(a.fim,'HH:mm')}">15:00</small>
                       </td>
                       <td>
-                        <div class="fw-medium" th:text="${a.cliente?.nome}">João Silva</div>
-                        <small class="text-secondary d-block d-lg-none" th:text="${a.barbeiro?.nome}">Barbeiro A</small>
+                        <div class="fw-medium" th:text="${a.cliente?.nome}">Cliente</div>
+                        <small class="text-secondary d-block d-lg-none" th:text="${a.barbeiro?.nome}">Barbeiro</small>
                       </td>
-                      <td th:text="${a.servico.name} ?: '—'">Corte + Barba</td>
-                      
-                      <td class="d-none d-lg-table-cell" th:text="${a.barbeiro.nome}">Barbeiro A</td>
-                     
-                      <td>
-                        <span class="badge bg-success-subtle text-success-emphasis"  th:text="${a.status}">CONFIRMADO</span>
-
-                      </td>
+                      <td th:text="${a.servico?.name} ?: '—'">Serviço</td>
+                      <td class="d-none d-lg-table-cell" th:text="${a.barbeiro?.nome}">Barbeiro</td>
+                      <td><span class="badge bg-success-subtle text-success-emphasis" th:text="${a.status}">CONFIRMADO</span></td>
                       <td class="text-end">
                         <div class="btn-group">
-                          
-                          <form th:action="@{'/agendamentos/confimar/' + ${a.id}}" method="post" sec:authorize=hasRole('BARBER')
-                                onsubmit="return confirm('Confimar este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                          <!-- Confirmação (Barbeiro) -->
+                          <form th:action="@{'/agendamentos/confimar/' + ${a.id}}" method="post" sec:authorize="hasRole('BARBER')" onsubmit="return confirm('Confirmar este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-primary"><i class="bi bi-check2-square"></i></button>
                           </form>
-                          
-                             <form th:action="@{'/agendamentos/concluir/' + ${a.id}}" method="post" sec:authorize=hasRole('BARBER')
-                                onsubmit="return confirm('Concluir este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                          <!-- Conclusão (Barbeiro) -->
+                          <form th:action="@{'/agendamentos/concluir/' + ${a.id}}" method="post" sec:authorize="hasRole('BARBER')" onsubmit="return confirm('Concluir este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-success"><i class="bi bi-check-circle"></i></button>
                           </form>
-                      
-                          <form th:action="@{'/agendamentos/cancelar/' + ${a.id}}" method="post" sec:authorize=hasRole('CLIENT')
-                                onsubmit="return confirm('Cancelar este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                          <!-- Cancelamento (Cliente) -->
+                          <form th:action="@{'/agendamentos/cancelar/' + ${a.id}}" method="post" sec:authorize="hasRole('CLIENT')" onsubmit="return confirm('Cancelar este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i></button>
                           </form>
                         </div>
                       </td>
                     </tr>
 
-                    <!-- vazio -->
                     <tr th:if="${meusAgendamentos == null or #lists.isEmpty(meusAgendamentos)}">
-                      <td colspan="7" class="text-center py-5">
+                      <td colspan="6" class="text-center py-5">
                         <div class="text-secondary">
                           <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
                           Nenhum agendamento futuro.
                         </div>
-                        <a th:href="@{/agendar}" class="btn btn-danger mt-3">
-                          <i class="bi bi-calendar2-plus"></i> Criar agendamento
-                        </a>
+                        <a th:href="@{/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
                       </td>
                     </tr>
                   </tbody>
-                  
-                    <tbody id="tbody-ag" sec:authorize="hasRole('ADMIN')">
-                    <!-- loop -->
+
+                  <!-- ADMIN -->
+                  <tbody id="tbody-ag" sec:authorize="hasRole('ADMIN')">
                     <tr th:each="a : ${agendamentosAll}">
                       <td>
                         <div class="fw-medium" th:text="${#temporals.format(a.inicio,'dd/MM HH:mm')}">20/08 14:00</div>
                         <small class="text-secondary" th:text="${#temporals.format(a.fim,'HH:mm')}">15:00</small>
                       </td>
-                      <td>
-                        <div class="fw-medium" th:text="${a.cliente?.nome}">João Silva</div>
-                        <small class="text-secondary d-block d-lg-none" th:text="${a.barbeiro?.nome}">Barbeiro A</small>
-                      </td>
-                      <td th:text="${a.servico.name} ?: '—'">Corte + Barba</td>
-                      
-                      <td class="d-none d-lg-table-cell" th:text="${a.barbeiro.nome}">Barbeiro A</td>
-                     
-                      <td>
-                        <span class="badge bg-success-subtle text-success-emphasis"  th:text="${a.status}">CONFIRMADO</span>
-
-                      </td>
+                      <td><div class="fw-medium" th:text="${a.cliente?.nome}">Cliente</div></td>
+                      <td th:text="${a.servico?.name} ?: '—'">Serviço</td>
+                      <td class="d-none d-lg-table-cell" th:text="${a.barbeiro?.nome}">Barbeiro</td>
+                      <td><span class="badge bg-success-subtle text-success-emphasis" th:text="${a.status}">CONFIRMADO</span></td>
                       <td class="text-end">
                         <div class="btn-group">
-                          
-                          <form th:action="@{'/agendamentos/confimar/' + ${a.id}}" method="post" 
-                                onsubmit="return confirm('Confimar este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                          <form th:action="@{'/agendamentos/confimar/' + ${a.id}}" method="post" onsubmit="return confirm('Confirmar este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-primary"><i class="bi bi-check2-square"></i></button>
                           </form>
-                          
-                             <form th:action="@{'/agendamentos/concluir/' + ${a.id}}" method="post"
-                                onsubmit="return confirm('Concluir este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                          <form th:action="@{'/agendamentos/concluir/' + ${a.id}}" method="post" onsubmit="return confirm('Concluir este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-success"><i class="bi bi-check-circle"></i></button>
                           </form>
-                      
-                          <form th:action="@{'/agendamentos/cancelar/' + ${a.id}}" method="post"
-                                onsubmit="return confirm('Cancelar este agendamento?');">
-                            <input type="hidden" th:if="${_csrf != null}"
-                                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                          <form th:action="@{'/agendamentos/cancelar/' + ${a.id}}" method="post" onsubmit="return confirm('Cancelar este agendamento?');">
+                            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <button class="btn btn-sm btn-outline-danger"><i class="bi bi-x-circle"></i></button>
                           </form>
                         </div>
                       </td>
                     </tr>
 
-                 
                     <tr th:if="${agendamentosAll == null or #lists.isEmpty(agendamentosAll)}">
-                      <td colspan="7" class="text-center py-5">
+                      <td colspan="6" class="text-center py-5">
                         <div class="text-secondary">
                           <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
                           Nenhum agendamento futuro.
                         </div>
-                        <a th:href="@{/agendar}" class="btn btn-danger mt-3">
-                          <i class="bi bi-calendar2-plus"></i> Criar agendamento
-                        </a>
+                        <a th:href="@{/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
                       </td>
                     </tr>
                   </tbody>
+
                 </table>
               </div>
-
             </div>
           </div>
         </div>
 
-        <!-- Coluna lateral: Atalhos + Avaliações -->
+        <!-- Coluna lateral ADMIN -->
         <div class="col-lg-4" sec:authorize="hasRole('ADMIN')">
+
           <!-- Atalhos -->
           <div class="card shadow-sm border-0 rounded-4 mb-4">
             <div class="card-body p-4">
               <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge"></i> Atalhos rápidos</h6>
               <div class="d-grid gap-2">
-              	<a th:href="@{/usuarios}" class="btn btn-outline-dark"><i class="bi bi-people"></i> Usuarios</a>
+                <a th:href="@{/usuarios}" class="btn btn-outline-dark"><i class="bi bi-people"></i> Usuários</a>
                 <a th:href="@{/clientes}" class="btn btn-outline-dark"><i class="bi bi-people"></i> Clientes</a>
                 <a th:href="@{/barbeiros}" class="btn btn-outline-dark"><i class="bi bi-person-workspace"></i> Barbeiros</a>
-                <a th:href="@{/produtos}" class="btn btn-outline-dark"><i class="bi bi-scissors"></i> Produtos</a>
+                <a th:href="@{/produtos}" class="btn btn-outline-dark"><i class="bi bi-basket"></i> Produtos</a>
                 <a th:href="@{/servicos}" class="btn btn-outline-dark"><i class="bi bi-scissors"></i> Serviços</a>
                 <a th:href="@{/agendamentos}" class="btn btn-outline-dark"><i class="bi bi-calendar3"></i> Agendamentos</a>
-                <a th:href="@{/roles}" class="btn btn-outline-dark"><i class="bi bi-calendar3"></i> Role</a>
+                <a th:href="@{/roles}" class="btn btn-outline-dark"><i class="bi bi-shield-lock"></i> Roles</a>
               </div>
             </div>
           </div>
 
           <!-- Avaliações recentes -->
-          <div class="card shadow-sm border-0 rounded-4" >
+          <div class="card shadow-sm border-0 rounded-4">
             <div class="card-body p-4">
               <h6 class="fw-bold mb-3"><i class="bi bi-chat-quote"></i> Avaliações recentes</h6>
 
               <div th:each="av : ${avaliacoesRecentes}" class="d-flex align-items-start gap-3 mb-3">
-                <div class="review-mark">
-                  <i class="bi bi-star-fill"></i>
-                </div>
+                <div class="review-mark"><i class="bi bi-star-fill"></i></div>
                 <div>
                   <div class="fw-medium" th:text="${av.agendamento?.cliente?.nome}">Cliente</div>
-                  <div class="small text-secondary mb-1"
-                       th:text="${#temporals.format(av.createdAt,'dd/MM/yyyy HH:mm')}">20/08/2025 12:30</div>
-                  <div class="small" th:text="${av.comentario}">Comentário...</div>
-                </div>
-              </div>
+                  <div class="small text-secondary mb-1" th:text="${#temporals.format(av.createdAt,'dd/MM/yyyy HH:mm')}">20/08/2025 12:30</div>
+                 
 
-              <div th:if="${avaliacoesRecentes == null or #lists.isEmpty(avaliacoesRecentes)}"
-                   class="text-secondary text-center py-3">
-                <i class="bi bi-emoji-neutral fs-4 d-block mb-2"></i>
-                Sem avaliações por enquanto.
-              </div>
-
-              <div class="text-end mt-3">
-                <a th:href="@{/avaliacoes}" class="link-secondary text-decoration-none small">
-                  Ver todas <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div><!-- row -->
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <div th:replace="~{fragments/footer :: footer}"></div>
-
-  <!-- JS local (mover para seu JS depois) -->
-  <script>
-    // filtro local de busca na tabela de próximos agendamentos
-    (function(){
-      const q = document.getElementById('buscar-ag');
-      const tbody = document.getElementById('tbody-ag');
-      if(!q || !tbody) return;
-      q.addEventListener('input', function(){
-        const term = this.value.toLowerCase();
-        tbody.querySelectorAll('tr').forEach(tr => {
-          const txt = tr.innerText.toLowerCase();
-          tr.style.display = txt.includes(term) ? '' : 'none';
-        });
-      });
-    })();
-  </script>
-
-</body>
-</html>
 

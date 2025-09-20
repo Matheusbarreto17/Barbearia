@@ -1,5 +1,6 @@
 package com.wmdigital.barbearia.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wmdigital.barbearia.entity.Agendamento;
 import com.wmdigital.barbearia.entity.Barbeiro;
 import com.wmdigital.barbearia.entity.Cliente;
 import com.wmdigital.barbearia.entity.Produto;
@@ -20,6 +22,7 @@ import com.wmdigital.barbearia.service.BarbeiroService;
 import com.wmdigital.barbearia.service.ClienteService;
 import com.wmdigital.barbearia.service.ProdutoService;
 import com.wmdigital.barbearia.service.ServicoService;
+import com.wmdigital.barbearia.util.Status;
 
 
 @Controller
@@ -114,14 +117,32 @@ public class IndexController extends AbstractController<Object> {
 		   return index();
 		   
 	   		} else { 
-	   			
-	   		 mav.addObject("meusAgendamentos", agendamentoServico.getAgendamentosByUsuer(user));
-	   		 mav.addObject("agendamentosAll", agendamentoServico.findAll());
+	   		
+	   			var meusAgendamentos = agendamentoServico.getAgendamentosByUsuer(user);
+	   			mav.addObject("meusAgendamentos", meusAgendamentos);
+	   		 
+	   		 	
+	   		 	var agendamentosAll = agendamentoServico.findAll();
+	   		 	mav.addObject("agendamentosAll", agendamentosAll);
+	   		 
+	   		 		int qtdpendentes = countStatusAgendamentos(meusAgendamentos, Status.PENDENTE);
+	   		 		int qtdconcluidos = countStatusAgendamentos(meusAgendamentos, Status.CONCLUIDO);
+	   		 		int qtdpendentesadmin = countStatusAgendamentos(agendamentosAll, Status.PENDENTE);
+	   		 		int qtdconcluidosadmin = countStatusAgendamentos(agendamentosAll, Status.CONCLUIDO);
+	   		 		int qtdtodayadmin = countStatusAgendamentosToday(agendamentosAll, Status.PENDENTE);
+	   		 		int qtdtoday = countStatusAgendamentosToday(meusAgendamentos, Status.PENDENTE);
+	   		 		
+	   		 			mav.addObject("qtdpendentes", qtdpendentes);
+	   		 			mav.addObject("qtdconcluidos", qtdconcluidos);
+	   		 			mav.addObject("qtdpendentesadmin", qtdpendentesadmin);
+	   		 			mav.addObject("qtdconcluidosadmin", qtdconcluidosadmin);
+	   		 			mav.addObject("qtdtodayadmin", qtdtodayadmin);
+	   		 			mav.addObject("qtdtoday", qtdtoday);
 	   }
 	    
-   	 
         return mav;
     }
+    
 
 	@Override
 	protected Object createEmptyEntity() {
@@ -134,5 +155,36 @@ public class IndexController extends AbstractController<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public int countStatusAgendamentos(List<Agendamento> agendamentos, Status status) {
+		
+	    int contador = 0;
 
+	    for (Agendamento agendamento : agendamentos) {
+	    	
+	        if (agendamento.getStatus() == status) {
+	            contador++;
+	        }
+	    }
+
+	    return contador;
+	}
+	
+	public int countStatusAgendamentosToday(List<Agendamento> agendamentos, Status status) {
+		
+		 int contador = 0;
+
+		    LocalDate hoje = LocalDate.now();
+
+		    for (Agendamento agendamento : agendamentos) {
+		        if (agendamento.getInicio() != null &&
+		            agendamento.getInicio().toLocalDate().isEqual(hoje)) {
+
+		            contador++;
+		        }
+		    }
+
+		    return contador;
+		}
 }
+
