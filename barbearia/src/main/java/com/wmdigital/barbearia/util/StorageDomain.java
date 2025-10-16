@@ -4,7 +4,8 @@ public enum StorageDomain {
 	BARBEIROS("barbeiros"),
     PRODUTOS("produtos"),
     SERVICOS("servicos"),
-    CLIENTES("clientes");
+    CLIENTES("clientes"),
+	COMPANYS("companys");
 
     private final String folder;
     

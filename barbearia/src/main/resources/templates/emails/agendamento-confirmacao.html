@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Agendamento</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 25px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #b30000; /* vermelho da barbearia */
+        text-align: center;
+      }
+
+      p {
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      a.button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 18px;
+        background-color: #b30000;
+        color: #fff !important;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+      a.button:hover {
+        background-color: #8a0000;
+      }
+
+      .footer {
+        font-size: 13px;
+        color: #777;
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Confirmação de agendamento</h2>
+
+      <p>
+        Olá <b th:text="${cliente}">Cliente</b>,<br>
+        seu agendamento com o barbeiro <b th:text="${barbeiro}">Barbeiro</b> foi criado para o serviço
+        <b th:text="${servico}">Serviço</b>.<br><br>
+        Início: <b th:text="${inicio}">Data de início</b><br>
+        Término: <b th:text="${fim}">Data de fim</b>
+      </p>
+
+      <p th:if="${cancelar}">
+        Caso precise cancelar seu agendamento, clique abaixo:
+        <br>
+        <a th:href="${cancelar}" class="button">Cancelar Agendamento</a>
+      </p>
+
+      <div class="footer">
+        <p>Atenciosamente,<br><b>Equipe Barbearia</b></p>
+      </div>
+    </div>
+  </body>
+</html>
+

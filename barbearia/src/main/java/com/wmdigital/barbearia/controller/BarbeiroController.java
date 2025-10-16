@@ -54,7 +54,7 @@ public class BarbeiroController extends AbstractController<Barbeiro> {
 	@GetMapping
 	@Override
 	public ModelAndView listEntitys() {
-		// TODO Auto-generated method stub
+
 		return super.listEntitys();
 	}
 	

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Mensagem</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #b30000; /* vermelho elegante */
+      }
+
+      p {
+        line-height: 1.6;
+      }
+
+      .footer {
+        font-size: 13px;
+        color: #777;
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Confirmação de mensagem</h2>
+
+      <p>
+        Olá <b th:text="${nome}">Cliente</b>,<br>
+        sua mensagem foi recebida e encaminhada para um de nossos colaboradores.
+      </p>
+
+      <p>
+        <strong>Mensagem:</strong>
+        <span th:text="${mensagem}">Mensagem</span><br>
+
+        <strong>Email:</strong>
+        <span th:text="${email}">email@exemplo.com</span>
+      </p>
+
+      <div class="footer">
+        <p>Atenciosamente,<br><b>Equipe Barbearia Shop</b></p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wmdigital.barbearia.dao.ProdutoRepository;
-import com.wmdigital.barbearia.entity.Barbeiro;
 import com.wmdigital.barbearia.entity.Produto;
 import com.wmdigital.barbearia.framework.AbstractEntityService;
 

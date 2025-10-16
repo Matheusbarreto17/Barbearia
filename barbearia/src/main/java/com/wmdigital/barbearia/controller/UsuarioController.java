@@ -5,13 +5,16 @@ import java.util.function.Supplier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wmdigital.barbearia.entity.Company;
 import com.wmdigital.barbearia.entity.Role;
 import com.wmdigital.barbearia.entity.Usuario;
 import com.wmdigital.barbearia.framework.AbstractController;
 import com.wmdigital.barbearia.framework.AbstractEntityService;
+import com.wmdigital.barbearia.service.CompanyService;
 import com.wmdigital.barbearia.service.RoleService;
 import com.wmdigital.barbearia.service.UsuarioService;
 
@@ -59,5 +62,4 @@ public class UsuarioController extends AbstractController<Usuario> {
 		modelMap.addAttribute("roles", roleservice.findAll());
 		
 	}
-
 }

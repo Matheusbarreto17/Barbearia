@@ -60,6 +60,10 @@ public class ClienteService extends AbstractEntityService<Cliente> {
 		return clienteDAO.findAll();
 	}
 	
-	
+	public Cliente findByNome(String nome) {
+		
+		
+		return clienteDAO.findByNome(nome).orElse(null);
+	}
 
 }

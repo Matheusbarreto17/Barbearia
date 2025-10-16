@@ -29,14 +29,8 @@
           </div>
         </div>
         <div class="d-flex flex-wrap gap-2">
-          <a th:href="@{/agendar}" class="btn btn-danger">
+          <a th:href="@{/agendamentos/agendar}" class="btn btn-danger">
             <i class="bi bi-calendar2-plus"></i> Novo agendamento
-          </a>
-          <a th:href="@{/clientes/novo}" class="btn btn-outline-dark">
-            <i class="bi bi-person-plus"></i> Novo cliente
-          </a>
-          <a th:href="@{/servicos}" class="btn btn-outline-dark">
-            <i class="bi bi-scissors"></i> Serviços
           </a>
         </div>
       </div>
@@ -87,11 +81,11 @@
         <div class="col-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN','BARBER')">
           <div class="card kpi-card h-100">
             <div class="card-body">
-              <div class="kpi-icon bg-dark text-white"><i class="bi bi-cash-coin"></i></div>
+              <div class="kpi-icon bg-dark text-white"><i class="bi bi-envelope"></i></div>
               <div class="kpi-meta">
-                <div class="kpi-label">Receita (hoje)</div>
+                <div class="kpi-label">Mensagem</div>
                 <div class="kpi-value">
-                  <span th:text="${#numbers.formatDecimal(kpis?.receitaHoje ?: 0, 1, 'POINT', 2, 'COMMA')}">0,00</span> €
+                  <div class="kpi-value" th:text="${qtdmensagem} ?: 0">0</div>
                 </div>
               </div>
             </div>
@@ -146,11 +140,11 @@
         <div class="col-6 col-lg-3" sec:authorize="hasAnyRole('ADMIN','BARBER')">
           <div class="card kpi-card h-100">
             <div class="card-body">
-              <div class="kpi-icon bg-dark text-white"><i class="bi bi-cash-coin"></i></div>
+              <div class="kpi-icon bg-dark text-white"><i class="bi bi-envelope"></i></div>
               <div class="kpi-meta">
-                <div class="kpi-label">Receita (hoje)</div>
+                <div class="kpi-label">Mensagem</div>
                 <div class="kpi-value">
-                  <span th:text="${#numbers.formatDecimal(kpis?.receitaHoje ?: 0, 1, 'POINT', 2, 'COMMA')}">0,00</span> €
+                  <div class="kpi-value" th:text="${qtdmensagem} ?: 0">0</div>
                 </div>
               </div>
             </div>
@@ -234,7 +228,7 @@
                 </div>
                 <div class="d-flex gap-2">
                   <input id="buscar-ag" type="search" class="form-control" placeholder="Buscar cliente/serviço…">
-                  <a th:href="@{/agendar}" class="btn btn-danger"><i class="bi bi-plus-lg"></i> Novo</a>
+                  <a th:href="@{/agendamentos/agendar}" class="btn btn-danger"><i class="bi bi-plus-lg"></i> Novo</a>
                 </div>
               </div>
 
@@ -294,7 +288,7 @@
                           <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
                           Nenhum agendamento futuro.
                         </div>
-                        <a th:href="@{/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
+                        <a th:href="@{/agendamentos/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
                       </td>
                     </tr>
                   </tbody>
@@ -334,7 +328,7 @@
                           <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
                           Nenhum agendamento futuro.
                         </div>
-                        <a th:href="@{/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
+                        <a th:href="@{/agendamentos/agendar}" class="btn btn-danger mt-3"><i class="bi bi-calendar2-plus"></i> Criar agendamento</a>
                       </td>
                     </tr>
                   </tbody>
@@ -359,21 +353,9 @@
                 <a th:href="@{/produtos}" class="btn btn-outline-dark"><i class="bi bi-basket"></i> Produtos</a>
                 <a th:href="@{/servicos}" class="btn btn-outline-dark"><i class="bi bi-scissors"></i> Serviços</a>
                 <a th:href="@{/agendamentos}" class="btn btn-outline-dark"><i class="bi bi-calendar3"></i> Agendamentos</a>
+                <a th:href="@{/companys}" class="btn btn-outline-dark"><i class="bi bi-building"></i> Company</a>
+                <a th:href="@{/contactForms}" class="btn btn-outline-dark"><i class="bi bi-ui-checks"></i> ContactForm</a>
                 <a th:href="@{/roles}" class="btn btn-outline-dark"><i class="bi bi-shield-lock"></i> Roles</a>
               </div>
             </div>
           </div>
-
-          <!-- Avaliações recentes -->
-          <div class="card shadow-sm border-0 rounded-4">
-            <div class="card-body p-4">
-              <h6 class="fw-bold mb-3"><i class="bi bi-chat-quote"></i> Avaliações recentes</h6>
-
-              <div th:each="av : ${avaliacoesRecentes}" class="d-flex align-items-start gap-3 mb-3">
-                <div class="review-mark"><i class="bi bi-star-fill"></i></div>
-                <div>
-                  <div class="fw-medium" th:text="${av.agendamento?.cliente?.nome}">Cliente</div>
-                  <div class="small text-secondary mb-1" th:text="${#temporals.format(av.createdAt,'dd/MM/yyyy HH:mm')}">20/08/2025 12:30</div>
-                 
-
-

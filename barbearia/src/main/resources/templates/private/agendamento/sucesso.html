@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head th:replace="~{fragments/head :: head('Barbearia — Agendamento concluído')}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    .wizard-steps {display:flex;gap:.75rem;flex-wrap:wrap}
+    .wizard-step{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:.75rem;border:1px solid #e5e7eb}
+    .wizard-step .num{width:1.75rem;height:1.75rem;display:inline-grid;place-items:center;border-radius:999px;background:#e9ecef}
+    .wizard-step.active{border-color:#0d6efd;background:#f0f6ff}
+    .wizard-step.active .num{background:#0d6efd;color:#fff}
+    .wizard-step.completed{border-color:#198754;background:#e9f7ef}
+    .wizard-step.completed .num{background:#198754;color:#fff}
+    .success-icon{font-size:3rem}
+  </style>
+</head>
+<body class="skin-bright">
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<section class="container py-4" th:object="${agendamento}">
+  <h1 class="h4 mb-3"><i class="bi bi-calendar2-check"></i> Agendar</h1>
+
+  <!-- Indicador de passos (todos completos + etapa final ativa) -->
+  <div class="wizard-steps mb-4">
+    <div class="wizard-step completed"><span class="num"><i class="bi bi-check-lg"></i></span> Serviço</div>
+    <div class="wizard-step completed"><span class="num"><i class="bi bi-check-lg"></i></span> Barbeiro</div>
+    <div class="wizard-step completed"><span class="num"><i class="bi bi-check-lg"></i></span> Dia &amp; Hora</div>
+    <div class="wizard-step completed"><span class="num"><i class="bi bi-check-lg"></i></span> Seus dados</div>
+    <div class="wizard-step active"><span class="num">5</span> Concluído</div>
+  </div>
+
+  <!-- Mensagens flash (opcional) -->
+  <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+  <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
+  <!-- Cartão de sucesso -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex align-items-start gap-3">
+        <div class="text-success success-icon"><i class="bi bi-check-circle-fill"></i></div>
+        <div>
+          <h2 class="h5 mb-1">Agendamento confirmado!</h2>
+          <p class="text-muted mb-3">Enviámos um e-mail com os detalhes. Guarde o código do agendamento para eventuais alterações.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Resumo do agendamento -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="small text-muted">Código</div>
+          <div class="fw-semibold" th:text="*{id}">00000000-0000-0000-0000-000000000000</div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="small text-muted">Status</div>
+          <span class="badge bg-warning text-dark" th:if="*{status} == 'PENDENTE'">Pendente</span>
+          <span class="badge bg-primary" th:text="*{status}">Confirmado</span>
+          <span class="badge bg-secondary" th:if="*{status} == 'CONCLUIDO'">Concluído</span>
+          <span class="badge bg-danger" th:if="*{status} == 'Cancelado'">Cancelado</span>
+        </div>
+
+        <div class="col-md-6">
+          <div class="small text-muted">Serviço</div>
+          <div class="fw-semibold" th:text="*{servico.name}">Corte masculino</div>
+          <div class="text-muted" th:if="*{servico.duracao} != null">
+            Duração: <span th:text="*{servico.duracao}">30</span> min
+          </div>
+          <div class="text-muted" th:if="*{servico.preco} != null">
+            Preço: € <span th:text="${#numbers.formatDecimal(agendamento.servico.preco,1,'POINT',2,'POINT')}">12.00</span>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="small text-muted">Profissional</div>
+          <!-- Ajuste o campo conforme o teu modelo: nome do barbeiro ou username -->
+          <div class="fw-semibold" th:text="*{barbeiro.nome != null ? barbeiro.nome : barbeiro.usuario.username}">Barbeiro</div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="small text-muted">Data</div>
+          <div class="fw-semibold" th:text="${#temporals.format(agendamento.inicio, 'dd/MM/yyyy')}">04/10/2025</div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="small text-muted">Horário</div>
+          <div class="fw-semibold">
+            <span th:text="${#temporals.format(agendamento.inicio, 'HH:mm')}">14:30</span>
+            —
+            <span th:text="${#temporals.format(agendamento.fim, 'HH:mm')}">15:00</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Ações -->
+      <div class="d-flex flex-wrap gap-2">
+        <!-- Link para dashboard (se autenticado) -->
+        <a class="btn btn-primary" th:href="@{/dashboard}">
+          <i class="bi bi-speedometer2"></i> Ir ao dashboard
+        </a>
+
+        <!-- Voltar à página inicial -->
+        <a class="btn btn-outline-secondary" th:href="@{/}">
+          <i class="bi bi-house"></i> Voltar ao início
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

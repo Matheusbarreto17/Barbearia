@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wmdigital.barbearia.entity.Agendamento;
 import com.wmdigital.barbearia.entity.Barbeiro;
 import com.wmdigital.barbearia.entity.Cliente;
+import com.wmdigital.barbearia.entity.Company;
+import com.wmdigital.barbearia.entity.ContactForm;
 import com.wmdigital.barbearia.entity.Produto;
 import com.wmdigital.barbearia.entity.Servico;
 import com.wmdigital.barbearia.framework.AbstractController;
@@ -20,6 +23,8 @@ import com.wmdigital.barbearia.service.AgendamentoService;
 import com.wmdigital.barbearia.service.AutService;
 import com.wmdigital.barbearia.service.BarbeiroService;
 import com.wmdigital.barbearia.service.ClienteService;
+import com.wmdigital.barbearia.service.CompanyService;
+import com.wmdigital.barbearia.service.ContactFormService;
 import com.wmdigital.barbearia.service.ProdutoService;
 import com.wmdigital.barbearia.service.ServicoService;
 import com.wmdigital.barbearia.util.Status;
@@ -50,6 +55,9 @@ public class IndexController extends AbstractController<Object> {
 	@Autowired
 	private AgendamentoService agendamentoServico;
 	
+	@Autowired
+	private ContactFormService contactFormService;
+	
 
 	protected IndexController() {
 		super("home", Object::new);
@@ -73,6 +81,9 @@ public class IndexController extends AbstractController<Object> {
    	   
    	   List<Produto> produtos = produtoService.findAll();
    	   mav.addObject("produtos", produtos);
+   	   
+   	   ContactForm contactForm = new ContactForm();
+   	   mav.addObject("contactForm", contactForm);
    	   
         return mav;
     }
@@ -109,6 +120,10 @@ public class IndexController extends AbstractController<Object> {
     List<Servico> servicos = servicoService.findAll();
    	int quantidadeServico = servicos.size();
     mav.addObject("quantidadeServico", quantidadeServico);
+    
+    List<ContactForm> contactForms = contactFormService.findAll();
+   	int qtdmensagem = contactForms.size();
+    mav.addObject("qtdmensagem", qtdmensagem);
     
    var user = autService.getUsuarioLogadoOrNull();
    

@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# =========================
+# === ENV / CONFIG SENSITIVE
+# =========================
+.env
+application.properties
+application.yml
+application-local.properties
+application-dev.properties
+application-prod.properties
+application-test.properties

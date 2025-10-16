@@ -40,15 +40,12 @@
             Agende seu horário com nossos mestres barbeiros. Experiência premium, ambiente acolhedor e aquele acabamento impecável.
           </p>
           <div class="d-flex gap-3">
-            <a th:href="@{/agendar}" class="btn btn-danger btn-lg">
+            <a th:href="@{/agendamentos/agendar}" class="btn btn-danger btn-lg">
               <i class="bi bi-calendar2-check"></i> Agendar serviço
             </a>
             <a th:href="@{/login}" class="btn btn-outline-light btn-lg">
               <i class="bi bi-box-arrow-in-right"></i> Entrar
             </a>
-          </div>
-          <div class="mt-4 small text-light-emphasis">
-            <i class="bi bi-geo-alt"></i> Av. da Noite 123, Lisboa — Seg a Sáb, 09h–20h
           </div>
         </div>
       </div>
@@ -79,7 +76,7 @@
             <p class="card-text text-secondary mb-4" th:text = "${s.preco}">
               R$ 10,98.
             </p>
-            <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">
+            <a th:href="@{/agendamentos/agendar}" class="btn btn-outline-danger btn-sm">
               <i class="bi bi-calendar2-check"></i> Agendar
             </a>
           </div>
@@ -110,9 +107,6 @@
             <p class="card-text text-secondary mb-4" th:text = "${p.preco}">
               R$ 10,98.
             </p>
-            <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">
-              <i class="bi bi-calendar2-check"></i> Agendar
-            </a>
           </div>
         </article>
       </div>
@@ -134,7 +128,7 @@
             <div class="card-body">
               <h5 class="card-title mb-1" th:text = "${b.nome}">Miguel Santos</h5>
               <p class="text-secondary small mb-3" th:text = "${b.especialidade}">Clássicos, Fade & Barba</p>
-              <a th:href="@{/agendar}" class="btn btn-outline-danger btn-sm">Agendar</a>
+              <a th:href="@{/agendamentos/agendar}" class="btn btn-outline-danger btn-sm">Agendar</a>
             </div>
           </div>
         </div>
@@ -254,13 +248,13 @@
           <div class="card h-100 shadow-sm">
             <div class="card-body">
               <h5 class="mb-3"><i class="bi bi-geo-alt text-danger"></i> Endereço</h5>
-              <p class="text-secondary mb-4">Av. da Noite 123, Lisboa — Portugal</p>
+              <p class="text-secondary mb-4" th:text = "${company.endereco}">Av. da Noite 123, Lisboa — Portugal</p>
               <h5 class="mb-3"><i class="bi bi-telephone text-danger"></i> Telefone</h5>
-              <p class="text-secondary mb-4">+351 999 999 999</p>
+              <p class="text-secondary mb-4"  th:text = "${company.telefone}">+351 999 999 999</p>
               <h5 class="mb-3"><i class="bi bi-clock text-danger"></i> Horário</h5>
               <p class="text-secondary mb-4">Seg a Sáb — 09h às 20h</p>
 
-              <a th:href="@{/agendar}" class="btn btn-danger w-100">
+              <a th:href="@{/agendamentos/agendar}" class="btn btn-danger w-100">
                 <i class="bi bi-calendar2-check"></i> Agendar serviço
               </a>
             </div>
@@ -271,22 +265,22 @@
           <div class="card shadow-sm">
             <div class="card-body">
               <h5 class="mb-3">Envie uma mensagem</h5>
-              <form th:action="@{/}" method="post">
+              <form th:action="@{/contactForms/save}" method="post" th:object ="${contactForm}">
                 <input type="hidden" th:if="${_csrf != null}"
                        th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label">Nome</label>
-                    <input type="text" name="nome" class="form-control" placeholder="Seu nome" required>
+                    <input type="text" name="nome" th:field="*{nome}" class="form-control" placeholder="Seu nome" required>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="voce@email.com" required>
+                    <input type="email" name="email" th:field="*{email}" class="form-control" placeholder="voce@email.com" required>
                   </div>
                   <div class="col-12">
                     <label class="form-label">Mensagem</label>
-                    <textarea name="mensagem" rows="4" class="form-control" placeholder="Como podemos ajudar?" required></textarea>
+                    <textarea name="mensagem" th:field="*{mensagem}" rows="4" class="form-control" placeholder="Como podemos ajudar?" required></textarea>
                   </div>
                   <div class="col-12 d-grid d-md-block">
                     <button type="submit" class="btn btn-outline-danger">
@@ -310,9 +304,6 @@
 
   <!-- FOOTER -->
   <div th:replace="~{fragments/footer :: footer}"></div>
-
-
-
 </body>
 </html>
 

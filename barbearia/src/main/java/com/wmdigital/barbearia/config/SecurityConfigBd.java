@@ -21,7 +21,7 @@ public class SecurityConfigBd {
 	              .requestMatchers(
 	                  "/", "/public/**",
 	                  "/css/**", "/js/**", "/img/**", "/webjars/**",
-	                  "/login", "/error"
+	                  "/login", "/error", "/recuperar-senha", "/resetar-senha", "/agendamentos/agendar", "/agendamentos/api/**", "/contactForm/save"
 	              ).permitAll()
 	              .anyRequest().authenticated()
 	          )
